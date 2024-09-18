@@ -11,7 +11,7 @@
 
 Исходя из анализа выше, данного клиента можно охарактеризовать как проблемного и непостоянного, несмотря на то, что стоимость заказов выше в сравнении с остальными клиентами.
 
-![Alternate image text](https://github.com/kanaruuu/DIS/blob/1/image.png)
+![Alternate image text](https://github.com/kanaruuu/DIS/blob/1/1.png)
 
 ## Клиент №2:
 
