@@ -1,0 +1,66 @@
+lexer grammar ExprLexer;
+INCLUDE: 'include';
+MUST: 'must';
+WHILE: 'while';
+PREDATES: 'predates';
+CAN: 'can';
+CAN_CONTROL: 'can control';
+SHOOTS: 'shoots';
+DESTROYS: 'destroys';
+
+COMMA: ',';
+SEMICOLON: ';';
+
+ID: [a-zA-Z_][a-zA-Z_0-9]*;
+WS: [ \t\n\r\f]+ -> skip;
+
+
+parser grammar ExprParser;
+options { tokenVocab=ExprLexer; }
+
+game: rules+;
+
+rules
+    : includeRule
+    | canRule
+    | canControlRule
+    | predatesRule
+    | mustRule
+    | shootsRule
+    | destroysRule
+    ;
+
+includeRule: ID INCLUDE list_id;
+
+canRule: ID CAN list_id;
+
+canControlRule: ID CAN_CONTROL list_id;
+
+predatesRule: ID PREDATES ID;
+
+mustRule: ID MUST ID WHILE ID;
+
+shootsRule: ID SHOOTS ID;
+
+destroysRule: ID DESTROYS ID;
+
+list_id: ID (COMMA ID)*;
+
+
+Game can StartGame, StopGame, EndGame
+Player can control SpaceShip, DefenseSystem
+SpaceShip can Move, Rotate, Shoot, BeDestroyed, Respawn
+DefenseSystem can DeployShield, InterceptMissile
+Missile can BeLaunched, HitTarget
+StartGame include InitializeWorld, SpawnPlayers
+InitializeWorld predates SpawnPlayers
+SpaceShip must AvoidCollision while Move
+AvoidCollision predates Respawn
+SpaceShip shoots Missile
+Missile destroys SpaceShip
+DefenseSystem can control Shield
+DefenseSystem shoots Missile
+Shield predates Respawn
+Missile must HitTarget while BeLaunched
+Game must EndGame while SpaceShip BeDestroyed
+
